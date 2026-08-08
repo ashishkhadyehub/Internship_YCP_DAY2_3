@@ -1,5 +1,6 @@
 ﻿using LA.Entities;
 using LA.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Formats.Tar;
@@ -26,7 +27,9 @@ namespace LA.Repositories.Implementations
 
         public IEnumerable<State> GetAll()
         {
-            return _context.States.ToList();
+            return _context.States
+                .Include(x=>x.Country)
+                .ToList();
         }
 
         public State GetById(int id)
