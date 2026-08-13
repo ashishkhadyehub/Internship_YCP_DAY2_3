@@ -17,6 +17,7 @@ builder.Services.
 
 builder.Services.AddScoped<IDeptRepo, DeptRepo>();
 builder.Services.AddScoped<IBranchRepo, BranchRepo>();
+builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
 
 //for session
 builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
@@ -45,6 +46,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Employee}/{action=Home}/{id?}");
 
 app.Run();
