@@ -18,6 +18,7 @@ builder.Services.
 builder.Services.AddScoped<IDeptRepo, DeptRepo>();
 builder.Services.AddScoped<IBranchRepo, BranchRepo>();
 builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
+builder.Services.AddScoped<IAdminRepo, AdminRepo>();
 
 //for session
 builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();

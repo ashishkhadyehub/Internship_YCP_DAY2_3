@@ -8,13 +8,45 @@ namespace EMS.UI.Controllers
     {
         private readonly IDeptRepo _deptRepo;
         private readonly IBranchRepo _branchRepo;
-
-        public AdminController(IDeptRepo deptRepo, IBranchRepo branchRepo)
+        private readonly IAdminRepo _adminRepo;
+        public AdminController(IDeptRepo deptRepo, IBranchRepo branchRepo, IAdminRepo adminRepo)
         {
             _deptRepo = deptRepo;
             _branchRepo = branchRepo;
+            _adminRepo = adminRepo;
         }
 
+
+        public IActionResult Index()
+        {
+            var employees = _adminRepo.GetAll();
+            return View(employees);
+        }
+
+        public IActionResult ApplicationList()
+        {
+            var leaveApps = _adminRepo.GetAllApplications();
+            return View(leaveApps);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var appToUpdate = _adminRepo.GetById(id);   
+            return View(appToUpdate);
+        }
+
+        [HttpPost]
+        public IActionResult ApproveApp(LeaveApplication leaveApplication)
+        {
+            _adminRepo.UpdateApplication(leaveApplication.Id, "Approved");
+            return RedirectToAction("ApplicationList");
+        }
+        [HttpPost]
+        public IActionResult RejectApp(LeaveApplication leaveApplication)
+        {
+            _adminRepo.UpdateApplication(leaveApplication.Id, "Rejected");
+            return RedirectToAction("ApplicationList");
+        }
         public IActionResult BranchList()
         {
             var branches = _branchRepo.GetAll();
@@ -126,9 +158,6 @@ namespace EMS.UI.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+       
     }
 }
